@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/priyanshu8023/students-api/internal/config"
+	"github.com/priyanshu8023/students-api/internal/http/handlers/student"
 )
 
 func main() {
@@ -20,7 +21,9 @@ func main() {
 	//setup router
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /",func( w http.ResponseWriter, r *http.Request){
+	router.HandleFunc("POST /api/students", student.New())
+	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request){
+		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("Welcome to students api"))
 	})
 	//setup server
@@ -38,7 +41,7 @@ func main() {
 	go func(){
 		err := server.ListenAndServe()
 		if err != nil {
-			log.Fatal("failed to start server")
+			log.Fatalf("failed to start server: %v", err)
 		}
 	}()
 	
