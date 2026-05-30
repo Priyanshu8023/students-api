@@ -35,6 +35,7 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("Welcome to students api"))
 	})
+	router.HandleFunc("GET /api/students/{id}", student.GetById(storage))
 	//setup server
 	server := http.Server{
 		Addr: cfg.Addr,
